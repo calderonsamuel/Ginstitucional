@@ -8,9 +8,10 @@ mi_pivot <- function(.df, .str){
 my_plot <- function(df, columna, separate = FALSE, orientation = "x"){
   data <- select(df, x = contains(columna))
   if (separate == TRUE) {
-    data <- separate_rows(data, x, sep = ", ")
+    data <- separate_rows(data, x, sep = ", ") %>% 
+      mutate(x = str_trunc(x, 60))
   }
-  p <- ggplot(data)
+  p <- ggplot(data, aes(fill = x))
   
   if (orientation == "x"){
     p + geom_bar(aes(x = fct_infreq(x)))

@@ -27,12 +27,20 @@ ui <- fluidPage(
             selectInput(inputId = "pregunta",
                         label = "Selecciona la pregunta", 
                         choices = preguntas$columna,
-                        selected = preguntas$columna[1], 
-                        selectize = TRUE)
+                        selected = preguntas$columna[1]),
+            selectInput(inputId = "paleta",
+                        label = "Selecciona la paleta de colores", 
+                        choices = rownames(RColorBrewer::brewer.pal.info),
+                        selected = "Set2")
         ),
 
         mainPanel(
-            plotOutput("grafico")
+            tabsetPanel(
+                tabPanel("Gráfico",
+                         plotOutput("grafico")),
+                tabPanel("Paletas",
+                         plotOutput("brewer"))
+            )
         )
     )
 )
@@ -47,10 +55,17 @@ server <- function(input, output) {
             my_plot(columna = mi_p()$num,
                     separate = mi_p()$separate,
                     orientation = mi_p()$orientation) +
-            my_wrap() +
-            geom_label()
+            my_wrap() + 
+            scale_fill_brewer(palette = input$paleta) +
+            theme(legend.position = "none")
             
-    })
+    },
+    height = 600)
+    
+    output$brewer <- renderPlot({
+        RColorBrewer::display.brewer.all()
+    },
+    height = 600)
 }
 
 # Run the application 
