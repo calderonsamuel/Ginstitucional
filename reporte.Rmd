@@ -1,0 +1,260 @@
+---
+title: "Reporte de entrevista a directores"
+output:
+  word_document: default
+  html_document: default
+---
+
+```{r setup, include=FALSE}
+library(tidyverse)
+knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE)
+
+source("global.R")
+
+datos <- read_csv("director.csv", col_types = cols(.default = "c")) %>% 
+  filter(`Nombre de la institución` != "") %>% 
+  mutate(across(everything(), str_to_upper)) %>% 
+  filter(row_number() <= 10)
+
+datos_GP <- read_csv("GP.csv", col_types = cols(.default = "c"))%>% 
+  filter(`Nombre de la institución` != "") %>% 
+  mutate(across(everything(), str_to_upper)) %>% 
+  filter(row_number() <= 10)
+```
+
+## Reporte de cuestionario para directores
+
+### Nombres de las instituciones cuyos directores fueron entrevistados
+
+```{r}
+datos %>% select(`Nombre de la institución`) %>% knitr::kable()
+```
+
+### A2.1 Indique el nombre de los programas de estudios que brinda la insittución educativa
+
+```{r}
+datos %>% 
+  mi_pivot("Indique el nombre") %>% 
+  mutate(value = str_trim(value),
+         value = stringi::stri_trans_general(value, "Latin-ASCII")) %>% 
+  ggplot(aes(y = fct_infreq(value))) + 
+  geom_bar() +
+  labs(title = "Nombre del programa de estudios", 
+       y = element_blank(),
+       x = "Recuento") +
+  my_wrap()
+```
+
+### A2.3A ¿Cuántos estudiantes están participando, en este contexto de emergencia sanitaria (COVID-19)?
+
+```{r}
+datos %>% 
+  mi_pivot("Cuántos estudiantes") %>% 
+  ggplot(aes(as.integer(value))) + 
+  geom_histogram() +
+  labs(title = "Cantidad de estudiantes por programa de estudios",
+       y = element_blank(),
+       x = element_blank())
+```
+
+### A4.1 ¿Todos los docentes nombrados y contratados están participando del servicio educativo no presencial?
+
+```{r}
+datos %>% 
+  my_plot("A4.1")
+```
+
+### A4.3A ¿La institución educativa ha realizado proceso(s) de admisión 2020?
+
+```{r}
+datos %>% 
+  filter(`Tipo de institución` == "IEST") %>% 
+  my_plot("A4.3A")
+```
+
+### A4.3B ¿En qué modalidad se han realizado el o los procesos de admisión 2020?
+
+```{r}
+datos %>% 
+  filter(`Tipo de institución` == "IEST") %>% 
+  my_plot("A4.3B")
+```
+
+### D3.1 ¿En qué momento del día viene desarrollando sus actividades de gestión?
+
+```{r}
+datos %>% 
+  my_plot("D3.1", separate = TRUE)
+```
+
+### D3.2 ¿Cuál es su disponibilidad de horas al día para dedicarse exclusivamente al desarrollo de las actividades de gestión?
+
+```{r}
+datos %>% 
+  select(disponibilidad = `D3.2 ¿Cuál es su disponibilidad de horas al día para dedicarse exclusivamente al desarrollo de las actividades de gestión?`) %>% 
+  mutate(disponibilidad = str_extract(disponibilidad, "[1-9]*")) %>% 
+  ggplot(aes(as.numeric(disponibilidad))) + 
+  geom_histogram()
+```
+
+### D4.4 ¿Qué procesos del Reglamento Institucional (RI) se han actualizado?
+
+```{r}
+datos %>% 
+  my_plot("D4.4", separate = TRUE, orientation = "y") +
+  my_wrap()
+```
+
+### D4.5 ¿En qué temas requiere ampliar sus conocimientos?
+
+```{r}
+datos %>% 
+  my_plot("D4.5",separate =  TRUE, orientation =  "y") +
+  my_wrap()
+```
+
+### E1.1 Utilizando el medio de transporte habitual ¿Cuánto tiempo demora en trasladarse desde la institución educativa hacia la DRE o GRE o UGEL?"   
+
+```{r}
+datos %>% 
+  my_plot("E1.1") 
+```
+
+### E2.1 ¿Con cuánta frecuencia se comunicación con el especialista de su nivel educativo de la DRE o GRE o UGEL?
+
+```{r}
+datos %>% 
+  my_plot("E2.1", orientation = "y")
+```
+
+### E2.2 ¿Con qué personal de la DRE, GRE o UGEL (que no sea el especialista) realiza sus coordinaciones?
+
+```{r}
+datos %>% 
+  my_plot("E2.2", separate = TRUE, orientation = "y") +
+  my_wrap()
+```
+
+### E3.1 ¿En qué momento del día generalmente se comunica con el personal de la DRE o GRE o UGEL?
+
+```{r}
+datos %>% 
+  my_plot("E3.1", separate = TRUE)
+```
+
+### E5.2 ¿Cómo recibe el apoyo de la DRE o GRE o UGEL?
+
+```{r}
+datos %>% 
+  my_plot("E5.2", separate = TRUE, orientation = "y") + 
+  my_wrap()
+```
+
+### E5.1 ¿En cuáles de los siguientes temas considera que el apoyo de la DRE o GRE o UGEL es efectivo?
+
+```{r}
+datos %>% 
+  my_plot("E5.1", separate = TRUE, orientation = "y") +
+  my_wrap()
+```
+
+### F1.1 ¿Con qué instituciones se vincula actualmente?
+
+```{r}
+datos %>% 
+  select(instituciones = `F1.1 ¿Con qué instituciones se vincula actualmente?`) %>% 
+  separate_rows(instituciones, sep = ", ") %>% 
+  mutate(instituciones = if_else(str_detect(instituciones, "MUNICIP"), "MUNICIPALIDAD", instituciones)) %>% 
+  ggplot(aes(y = instituciones)) + geom_bar() + my_wrap(width = 40)
+```
+
+### G2.1 En una escala del 1 al 5, donde 1 es la menor sintonía y 5 es la mayor sintonía, ¿Cómo ubicaría la sintonía del siguiente tipo de medio en la localidad de la institución?
+
+```{r}
+datos %>% 
+  mi_pivot("Escala del 1 al 5") %>% 
+  mutate(name = str_remove(name, ".*: ")) %>% 
+  ggplot()+
+  geom_bar(aes(value, fill = name), position = "fill")
+```
+
+### H1.2 ¿Su institución educativa se vincula con alguna de las empresas principales de la localidad?
+
+```{r}
+datos %>% 
+  my_plot("H1.2") 
+```
+
+### H1.3 ¿Qué actividades se realizan con las instituciones vinculadas?
+
+```{r}
+datos %>% 
+  filter(`H1.2 ¿Su institución educativa se vincula con alguna de ellas?` == "SI") %>% 
+  select(actividad = `H1.3 ¿Qué actividades se realizan con las instituciones vinculadas?`) %>% 
+  separate_rows(actividad, sep = ", ") %>% 
+  mutate(actividad = if_else(str_detect(actividad, "PR[ÁA]CTICAS"), "PRÁCTICAS", actividad)) %>% 
+  ggplot(aes(y = actividad)) + geom_bar() + my_wrap()
+```
+
+### G4.2 ¿A través de qué medios se transmite "Aprendo en casa" en la localidad donde se ubica la institución?
+
+```{r}
+datos %>% 
+  select(aec = `G4.2 ¿A través de qué medios se transmite "Aprendo en casa" en la localidad donde se ubica la institución?`) %>% 
+  separate_rows(aec, sep = ", ") %>% 
+  separate(aec, into = c("aec", "medio"), sep = ":") %>% 
+  filter(!is.na(aec)) %>% 
+  mutate(aec = str_trim(aec),
+         aec = if_else(str_detect(aec, "RADIO LOCAL"), "RADIO LOCAL", aec)) %>% 
+  ggplot(aes(y = aec)) + geom_bar()
+```
+
+## Reporte de cuestionario de responsables de Gestión Pedagógica
+
+###
+
+```{r}
+datos_GP %>% 
+  select(dificultades = `A3.2 ¿Qué dificultades se han presentado al brindar el servicio educativo no presencial?`) %>% 
+  separate_rows(dificultades, sep = ", ") %>% 
+  ggplot(aes(y = dificultades)) + geom_bar() + my_wrap()
+```
+
+### A4.4A ¿Cuál es el número de ingresantes por programa de estudios?
+
+```{r}
+datos_GP %>% 
+  select(contains("A4.4")) %>% 
+  mutate(across(everything(), .fns = function(x) str_remove_all(x, "\\D*"))) %>% 
+  pivot_longer(cols = everything()) %>% 
+  filter(!is.na(value)) %>% 
+  ggplot(aes(as.numeric(value))) + geom_histogram()
+```
+
+### 3.1 ¿Qué herramientas o recursos utilizan para brindar el servicio educativo no presencial?
+
+```{r}
+datos_GP %>% 
+  select(recursos = `A3.1 ¿Qué herramientas o recursos utilizan para brindar el servicio educativo no presencial?`) %>% 
+  separate_rows(recursos, sep = ", ") %>% 
+  ggplot(aes(y = recursos)) + geom_bar() + my_wrap()
+```
+
+### A5.1 ¿Qué tipo de material educativo han desarrollado o está utilizando para brindar el servicio educativo no presencial?
+
+```{r}
+datos_GP %>% 
+  select(material = `A5.1 ¿Qué tipo de material educativo han desarrollado o está utilizando para brindar el servicio educativo no presencial?`) %>% 
+  separate_rows(material, sep = ", ") %>% 
+  ggplot(aes(y = material)) + geom_bar() + my_wrap()
+```
+
+### C4.6 ¿En cuál de los siguiente temas requiere capacitar a los docentes?
+
+```{r}
+datos_GP %>% 
+  select(docentes = `C4.6 ¿En cuál de los siguiente temas requiere capacitar a los docentes?`) %>% 
+  separate_rows(docentes, sep = ", ") %>% 
+  ggplot(aes(y = docentes)) + geom_bar() + my_wrap()
+```
+
