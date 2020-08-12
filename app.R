@@ -31,7 +31,7 @@ ui <- fluidPage(
             selectInput(inputId = "paleta",
                         label = "Selecciona la paleta de colores", 
                         choices = rownames(RColorBrewer::brewer.pal.info),
-                        selected = "Set2")
+                        selected = "Set1")
         ),
 
         mainPanel(
