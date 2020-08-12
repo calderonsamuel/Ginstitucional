@@ -31,7 +31,9 @@ ui <- fluidPage(
             selectInput(inputId = "paleta",
                         label = "Selecciona la paleta de colores", 
                         choices = rownames(RColorBrewer::brewer.pal.info),
-                        selected = "Set1")
+                        selected = "Set1"),
+            checkboxInput(inputId = "tipo_resumen",
+                          label = "Ver como porcentaje")
         ),
 
         mainPanel(
@@ -53,7 +55,8 @@ server <- function(input, output) {
     my_data <- reactive({
         datos %>% 
             my_pipe(columna = mi_p()$num,
-                    separate = mi_p()$separate)
+                    separate = mi_p()$separate,
+                    usar_porc = input$tipo_resumen)
     })
     
     my_custom_heigth <- reactive({
@@ -63,8 +66,9 @@ server <- function(input, output) {
     output$grafico <- renderPlot({
         
             my_plot(my_data(), 
-                    orientation = mi_p()$orientation, 
-                    paleta = input$paleta) 
+                    paleta = input$paleta) +
+            labs(title = str_remove_all(input$pregunta, "\t|\n"))
+            
             
     },
     height = function() {my_custom_heigth()})
