@@ -8,7 +8,9 @@ mi_pivot <- function(.df, .str){
 my_plot <- function(df, columna, separate = FALSE, orientation = "x"){
   data <- select(df, x = contains(columna))
   if (separate == TRUE) {
-    data <- separate_rows(data, x, sep = ", ")
+    data <- separate_rows(data, x, sep = ", ") %>% 
+      mutate(x = stringr::str_trunc(x, 55)) %>% 
+      filter(x != "NA")
   }
   p <- ggplot(data)
   
@@ -20,6 +22,6 @@ my_plot <- function(df, columna, separate = FALSE, orientation = "x"){
   
 }
 
-my_wrap <- function(..., width = 30){
+my_wrap <- function(..., width = 35){
   scale_y_discrete(..., labels = function(x) str_wrap(x, width = width))
 }

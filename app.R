@@ -6,7 +6,7 @@ source("global.R")
 datos <- read_csv("director.csv", col_types = cols(.default = "c")) %>% 
     filter(`Nombre de la institución` != "") %>% 
     mutate(across(everything(), str_to_upper)) %>% 
-    filter(row_number() <= 10)
+    filter(row_number() <= 30)
 
 # datos_GP <- read_csv("GP.csv", col_types = cols(.default = "c"))%>% 
 #     filter(`Nombre de la institución` != "") %>% 
@@ -47,8 +47,7 @@ server <- function(input, output) {
             my_plot(columna = mi_p()$num,
                     separate = mi_p()$separate,
                     orientation = mi_p()$orientation) +
-            my_wrap() +
-            geom_label()
+            my_wrap()
             
     })
 }
