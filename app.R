@@ -50,17 +50,24 @@ server <- function(input, output) {
         filter(preguntas, columna == input$pregunta)
     })
     
-    output$grafico <- renderPlot({
+    my_data <- reactive({
         datos %>% 
-            my_plot(columna = mi_p()$num,
-                    separate = mi_p()$separate,
-                    orientation = mi_p()$orientation) +
-            my_wrap() + 
-            scale_fill_brewer(palette = input$paleta) +
-            theme(legend.position = "none")
+            my_pipe(columna = mi_p()$num,
+                    separate = mi_p()$separate)
+    })
+    
+    my_custom_heigth <- reactive({
+        if(nrow(my_data()) < 8) 400 else 600
+    })
+    
+    output$grafico <- renderPlot({
+        
+            my_plot(my_data(), 
+                    orientation = mi_p()$orientation, 
+                    paleta = input$paleta) 
             
     },
-    height = 600)
+    height = function() {my_custom_heigth()})
     
     output$brewer <- renderPlot({
         RColorBrewer::display.brewer.all()
