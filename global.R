@@ -8,8 +8,9 @@ mi_pivot <- function(.df, .str){
 my_plot <- function(df, columna, separate = FALSE, orientation = "x"){
   data <- select(df, x = contains(columna))
   if (separate == TRUE) {
-    data <- separate_rows(data, x, sep = ", ") %>% 
-      mutate(x = str_trunc(x, 60))
+    data <- 
+      separate_rows(data, x, sep = ", ") %>% 
+      mutate(x = str_trunc(x, 60)) %>% 
       filter(x != "NA")
   }
   p <- ggplot(data, aes(fill = x))
