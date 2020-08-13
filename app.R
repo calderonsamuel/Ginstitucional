@@ -96,11 +96,12 @@ server <- function(input, output) {
     })
     
     output$grafico <- renderPlot({
+        tipo_resp <- if_else(mi_p()$separate, "múltiple", "único")
             my_plot(my_data(), 
                     paleta = input$paleta,
                     usar_porc = input$tipo_resumen) +
             labs(title = str_remove_all(input$pregunta, "\t|\n"),
-                 subtitle = paste("Análisis de", nrow(filtrado()), "respuestas"),
+                 subtitle = paste("Análisis de", nrow(filtrado()), "respuestas de tipo", tipo_resp),
                  x = "Instituciones educativas")
             
     },
