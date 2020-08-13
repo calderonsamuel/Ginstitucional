@@ -27,7 +27,7 @@ my_pipe <- function(df, separate = FALSE, usar_porc = FALSE){
   data
 }
 
-my_plot <- function(df, paleta, usar_porc = FALSE){
+my_plot <- function(df, paleta = "Set1", usar_porc = FALSE){
   
   p <- ggplot(df, aes(y = x, x = valor)) +
       geom_col(aes(fill = x))
