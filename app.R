@@ -52,10 +52,14 @@ server <- function(input, output) {
         filter(preguntas, columna == input$pregunta)
     })
     
+    filtrado <- reactive({
+        datos %>%
+            select(x = contains(mi_p()$num)) %>% 
+            filter(!is.na(x))
+    })
     my_data <- reactive({
-        datos %>% 
-            my_pipe(columna = mi_p()$num,
-                    separate = mi_p()$separate,
+         filtrado()%>% 
+            my_pipe(separate = mi_p()$separate,
                     usar_porc = input$tipo_resumen)
     })
     
@@ -66,8 +70,10 @@ server <- function(input, output) {
     output$grafico <- renderPlot({
         
             my_plot(my_data(), 
-                    paleta = input$paleta) +
-            labs(title = str_remove_all(input$pregunta, "\t|\n"))
+                    paleta = input$paleta,
+                    usar_porc = input$tipo_resumen) +
+            labs(title = str_remove_all(input$pregunta, "\t|\n"),
+                 subtitle = paste("Análisis de", nrow(filtrado()), "respuestas"))
             
             
     },

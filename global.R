@@ -5,9 +5,8 @@ mi_pivot <- function(.df, .str){
     filter(value != "")
 }
 
-my_pipe <- function(df, columna, separate = FALSE, usar_porc = FALSE){
-  
-  data <- select(df, x = contains(columna))
+my_pipe <- function(df, separate = FALSE, usar_porc = FALSE){
+  data <- df
   if (separate == TRUE) {
     data <- 
       separate_rows(data, x, sep = ", ") %>% 
@@ -28,11 +27,17 @@ my_pipe <- function(df, columna, separate = FALSE, usar_porc = FALSE){
   data
 }
 
-my_plot <- function(df, paleta){
+my_plot <- function(df, paleta, usar_porc = FALSE){
   
   p <- ggplot(df, aes(y = x, x = valor)) +
-      geom_col(aes(fill = x)) +
-      geom_label(aes(label = valor))
+      geom_col(aes(fill = x))
+  if(usar_porc){
+    p <- p + 
+      geom_label(aes(label = scales::percent(valor, 0.1))) +
+      scale_x_continuous(labels = scales::label_percent())
+  } else {
+    p <- p + geom_label(aes(label = valor))
+  }
   p +
     my_wrap() + 
     scale_fill_brewer(palette = paleta) +
