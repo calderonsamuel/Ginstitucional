@@ -1,63 +1,83 @@
-columna,listo,separate,orientation
-Marca temporal,FALSE,FALSE,x
-Nombre de la institución,FALSE,FALSE,x
-Código modular de la institución,FALSE,FALSE,x
-Tipo de institución,FALSE,FALSE,x
-Nombre del informante,FALSE,FALSE,x
-DNI del informante,FALSE,FALSE,x
-Cargo del informante,FALSE,FALSE,x
-A2.1A Indique el nombre de los programas de estudios que brinda la insittución educativa (1),FALSE,FALSE,x
-A2.1B Indique el nombre de los programas de estudios que brinda la insittución educativa (2),FALSE,FALSE,x
-A2.1C Indique el nombre de los programas de estudios que brinda la insittución educativa (3),FALSE,FALSE,x
-A2.1D Indique el nombre de los programas de estudios que brinda la insittución educativa (4),FALSE,FALSE,x
-A2.1E Indique el nombre de los programas de estudios que brinda la insittución educativa (5),FALSE,FALSE,x
-A2.1F Indique el nombre de los programas de estudios que brinda la insittución educativa (6),FALSE,FALSE,x
-A2.1G Indique el nombre de los programas de estudios que brinda la insittución educativa (7),FALSE,FALSE,x
-A2.3H Indique el nombre de los programas de estudios que brinda la insittución educativa (8),FALSE,FALSE,x
-A2.3I Indique el nombre de los programas de estudios que brinda la insittución educativa (9),FALSE,FALSE,x
-A2.1J Indique el nombre de los programas de estudios que brinda la insittución educativa (10),FALSE,FALSE,x
-"A2.3A ¿Cuántos estudiantes están participando, en este contexto de emergencia sanitaria (COVID-19)?",FALSE,FALSE,x
-"A2.3B ¿Cuántos estudiantes están participando, en este contexto de emergencia sanitaria (COVID-19)?",FALSE,FALSE,x
-"A2.3C ¿Cuántos estudiantes están participando, en este contexto de emergencia sanitaria (COVID-19)?",FALSE,FALSE,x
-"A2.3D ¿Cuántos estudiantes están participando, en este contexto de emergencia sanitaria (COVID-19)?",FALSE,FALSE,x
-"A2.3E ¿Cuántos estudiantes están participando, en este contexto de emergencia sanitaria (COVID-19)?",FALSE,FALSE,x
-"A2.3F ¿Cuántos estudiantes están participando, en este contexto de emergencia sanitaria (COVID-19)?",FALSE,FALSE,x
-"A2.1G ¿Cuántos estudiantes están participando, en este contexto de emergencia sanitaria (COVID-19)?",FALSE,FALSE,x
-"A2.1H ¿Cuántos estudiantes están participando, en este contexto de emergencia sanitaria (COVID-19)?",FALSE,FALSE,x
-"A2.1I ¿Cuántos estudiantes están participando, en este contexto de emergencia sanitaria (COVID-19)?",FALSE,FALSE,x
-"A2.3J ¿Cuántos estudiantes están participando, en este contexto de emergencia sanitaria (COVID-19)?",FALSE,FALSE,x
-"A4.1 
+cuestionario,columna,listo,separate,orientation
+Director,Marca temporal,FALSE,FALSE,x
+Director,Nombre de la institución,FALSE,FALSE,x
+Director,Código modular de la institución,FALSE,FALSE,x
+Director,Tipo de institución,FALSE,FALSE,x
+Director,Nombre del informante,FALSE,FALSE,x
+Director,DNI del informante,FALSE,FALSE,x
+Director,Cargo del informante,FALSE,FALSE,x
+Director,A2.1A Indique el nombre de los programas de estudios que brinda la insittución educativa (1),FALSE,FALSE,x
+Director,A2.1B Indique el nombre de los programas de estudios que brinda la insittución educativa (2),FALSE,FALSE,x
+Director,A2.1C Indique el nombre de los programas de estudios que brinda la insittución educativa (3),FALSE,FALSE,x
+Director,A2.1D Indique el nombre de los programas de estudios que brinda la insittución educativa (4),FALSE,FALSE,x
+Director,A2.1E Indique el nombre de los programas de estudios que brinda la insittución educativa (5),FALSE,FALSE,x
+Director,A2.1F Indique el nombre de los programas de estudios que brinda la insittución educativa (6),FALSE,FALSE,x
+Director,A2.1G Indique el nombre de los programas de estudios que brinda la insittución educativa (7),FALSE,FALSE,x
+Director,A2.3H Indique el nombre de los programas de estudios que brinda la insittución educativa (8),FALSE,FALSE,x
+Director,A2.3I Indique el nombre de los programas de estudios que brinda la insittución educativa (9),FALSE,FALSE,x
+Director,A2.1J Indique el nombre de los programas de estudios que brinda la insittución educativa (10),FALSE,FALSE,x
+Director,"A2.3A ¿Cuántos estudiantes están participando, en este contexto de emergencia sanitaria (COVID-19)?",FALSE,FALSE,x
+Director,"A2.3B ¿Cuántos estudiantes están participando, en este contexto de emergencia sanitaria (COVID-19)?",FALSE,FALSE,x
+Director,"A2.3C ¿Cuántos estudiantes están participando, en este contexto de emergencia sanitaria (COVID-19)?",FALSE,FALSE,x
+Director,"A2.3D ¿Cuántos estudiantes están participando, en este contexto de emergencia sanitaria (COVID-19)?",FALSE,FALSE,x
+Director,"A2.3E ¿Cuántos estudiantes están participando, en este contexto de emergencia sanitaria (COVID-19)?",FALSE,FALSE,x
+Director,"A2.3F ¿Cuántos estudiantes están participando, en este contexto de emergencia sanitaria (COVID-19)?",FALSE,FALSE,x
+Director,"A2.1G ¿Cuántos estudiantes están participando, en este contexto de emergencia sanitaria (COVID-19)?",FALSE,FALSE,x
+Director,"A2.1H ¿Cuántos estudiantes están participando, en este contexto de emergencia sanitaria (COVID-19)?",FALSE,FALSE,x
+Director,"A2.1I ¿Cuántos estudiantes están participando, en este contexto de emergencia sanitaria (COVID-19)?",FALSE,FALSE,x
+Director,"A2.3J ¿Cuántos estudiantes están participando, en este contexto de emergencia sanitaria (COVID-19)?",FALSE,FALSE,x
+Director,"A4.1 
 ¿Todos los docentes nombrados y contratados están participando del servicio educativo no presencial?",TRUE,FALSE,x
-A4.3A ¿La institución educativa ha realizado proceso(s) de admisión 2020?,TRUE,FALSE,x
-A4.3B ¿En qué modalidad se han realizado el o los procesos de admisión 2020?,TRUE,FALSE,x
-D3.1 ¿En qué momento del día viene desarrollando sus actividades de gestión?,TRUE,TRUE,x
-D3.2 ¿Cuál es su disponibilidad de horas al día para dedicarse exclusivamente al desarrollo de las actividades de gestión?,FALSE,FALSE,x
-D4.1 ¿Cuáles son los objetivos priorizados del PAT 2020 en este contexto de emergencia sanitaria (COVID-19)? (1),FALSE,FALSE,x
-D4.2A ¿Cuáles son las actividades principales que se vienen implementando para cumplir los objetivos priorizados del PAT 2020 en este contexto de emergencia sanitaria (COVID-19)? (1),FALSE,FALSE,x
-D4.2B ¿Cuáles son los objetivos priorizados del PAT 2020 en este contexto de emergencia sanitaria (COVID-19)? (2),FALSE,FALSE,x
-D4.2C ¿Cuáles son las actividades principales que se vienen implementando para cumplir los objetivos priorizados del PAT 2020 en este contexto de emergencia sanitaria (COVID-19)? (2),FALSE,FALSE,x
-D4.2D ¿Cuáles son los objetivos priorizados del PAT 2020 en este contexto de emergencia sanitaria (COVID-19)? (3),FALSE,FALSE,x
-D4.2E ¿Cuáles son las actividades principales que se vienen implementando para cumplir los objetivos priorizados del PAT 2020 en este contexto de emergencia sanitaria (COVID-19)? (3),FALSE,FALSE,x
-D4.3 ¿Qué instrumentos utiliza para monitorear la implementación de las actividades del PAT 2020?,FALSE,FALSE,x
-D4.4 ¿Qué procesos del Reglamento Institucional (RI) se han actualizado?,TRUE,TRUE,y
-D4.5 ¿En qué temas requiere ampliar sus conocimientos?,TRUE,TRUE,y
-E1.1 Utilizando el medio de transporte habitual ¿Cuánto tiempo demora en trasladarse desde la institución educativa hacia la DRE o GRE o UGEL?,TRUE,FALSE,x
-E2.1 ¿Con cuánta frecuencia se comunicación con el especialista de su nivel educativo de la DRE o GRE o UGEL?,TRUE,FALSE,y
-"E2.2 ¿Con qué personal de la DRE, GRE o UGEL (que no sea el especialista) realiza sus coordinaciones?",TRUE,TRUE,y
-E3.1 ¿En qué momento del día generalmente se comunica con el personal de la DRE o GRE o UGEL?,TRUE,TRUE,x
-E5.2 ¿Cómo recibe el apoyo de la DRE o GRE o UGEL?,TRUE,TRUE,y
-E5.1 ¿En cuáles de los siguientes temas considera que el apoyo de la DRE o GRE o UGEL es efectivo?,TRUE,TRUE,y
-F1.1 ¿Con qué instituciones se vincula actualmente?,FALSE,FALSE,x
-F2.1 ¿Qué actividades educativas desarrolla con la o las instituciones indicadas en la pregunta anterior?,FALSE,FALSE,x
-"G2.1 En una escala del 1 al 5, donde 1 es la menor sintonía y 5 es la mayor sintonía, ¿Cómo ubicaría la sintonía del siguiente tipo de medio en la localidad de la institución?: Radio Nacional",FALSE,FALSE,x
-"G2.1 En una escala del 1 al 5, donde 1 es la menor sintonía y 5 es la mayor sintonía, ¿Cómo ubicaría la sintonía del siguiente tipo de medio en la localidad de la institución?: Radio local",FALSE,FALSE,x
-"G2.1 En una escala del 1 al 5, donde 1 es la menor sintonía y 5 es la mayor sintonía, ¿Cómo ubicaría la sintonía del siguiente tipo de medio en la localidad de la institución?: Televisión Nacional",FALSE,FALSE,x
-"G2.1 En una escala del 1 al 5, donde 1 es la menor sintonía y 5 es la mayor sintonía, ¿Cómo ubicaría la sintonía del siguiente tipo de medio en la localidad de la institución?: Televisión local",FALSE,FALSE,x
-"G2.1 En una escala del 1 al 5, donde 1 es la menor sintonía y 5 es la mayor sintonía, ¿Cómo ubicaría la sintonía del siguiente tipo de medio en la localidad de la institución?: Diario Nacional",FALSE,FALSE,x
-"G2.1 En una escala del 1 al 5, donde 1 es la menor sintonía y 5 es la mayor sintonía, ¿Cómo ubicaría la sintonía del siguiente tipo de medio en la localidad de la institución?: Diario local",FALSE,FALSE,x
-G2.2 Indique los nombres de los 3 principales medios más consumidos por la población,FALSE,FALSE,x
-G4.1 ¿Cuáles son los medios de comunicación que tienen mayor cobertura (alcance territorial) en su localidad?,FALSE,FALSE,x
-H1.1 ¿Cuáles son las principales empresas que existen en la zona y de qué rubro?,FALSE,FALSE,x
-H1.2 ¿Su institución educativa se vincula con alguna de ellas?,TRUE,FALSE,x
-H1.3 ¿Qué actividades se realizan con las instituciones vinculadas?,FALSE,FALSE,x
-"G4.2 ¿A través de qué medios se transmite ""Aprendo en casa"" en la localidad donde se ubica la institución?",FALSE,FALSE,x
+Director,A4.3A ¿La institución educativa ha realizado proceso(s) de admisión 2020?,TRUE,FALSE,x
+Director,A4.3B ¿En qué modalidad se han realizado el o los procesos de admisión 2020?,TRUE,FALSE,x
+Director,D3.1 ¿En qué momento del día viene desarrollando sus actividades de gestión?,TRUE,TRUE,x
+Director,D3.2 ¿Cuál es su disponibilidad de horas al día para dedicarse exclusivamente al desarrollo de las actividades de gestión?,FALSE,FALSE,x
+Director,D4.1 ¿Cuáles son los objetivos priorizados del PAT 2020 en este contexto de emergencia sanitaria (COVID-19)? (1),FALSE,FALSE,x
+Director,D4.2A ¿Cuáles son las actividades principales que se vienen implementando para cumplir los objetivos priorizados del PAT 2020 en este contexto de emergencia sanitaria (COVID-19)? (1),FALSE,FALSE,x
+Director,D4.2B ¿Cuáles son los objetivos priorizados del PAT 2020 en este contexto de emergencia sanitaria (COVID-19)? (2),FALSE,FALSE,x
+Director,D4.2C ¿Cuáles son las actividades principales que se vienen implementando para cumplir los objetivos priorizados del PAT 2020 en este contexto de emergencia sanitaria (COVID-19)? (2),FALSE,FALSE,x
+Director,D4.2D ¿Cuáles son los objetivos priorizados del PAT 2020 en este contexto de emergencia sanitaria (COVID-19)? (3),FALSE,FALSE,x
+Director,D4.2E ¿Cuáles son las actividades principales que se vienen implementando para cumplir los objetivos priorizados del PAT 2020 en este contexto de emergencia sanitaria (COVID-19)? (3),FALSE,FALSE,x
+Director,D4.3 ¿Qué instrumentos utiliza para monitorear la implementación de las actividades del PAT 2020?,FALSE,FALSE,x
+Director,D4.4 ¿Qué procesos del Reglamento Institucional (RI) se han actualizado?,TRUE,TRUE,y
+Director,D4.5 ¿En qué temas requiere ampliar sus conocimientos?,TRUE,TRUE,y
+Director,E1.1 Utilizando el medio de transporte habitual ¿Cuánto tiempo demora en trasladarse desde la institución educativa hacia la DRE o GRE o UGEL?,TRUE,FALSE,x
+Director,E2.1 ¿Con cuánta frecuencia se comunicación con el especialista de su nivel educativo de la DRE o GRE o UGEL?,TRUE,FALSE,y
+Director,"E2.2 ¿Con qué personal de la DRE, GRE o UGEL (que no sea el especialista) realiza sus coordinaciones?",TRUE,TRUE,y
+Director,E3.1 ¿En qué momento del día generalmente se comunica con el personal de la DRE o GRE o UGEL?,TRUE,TRUE,x
+Director,E5.2 ¿Cómo recibe el apoyo de la DRE o GRE o UGEL?,TRUE,TRUE,y
+Director,E5.1 ¿En cuáles de los siguientes temas considera que el apoyo de la DRE o GRE o UGEL es efectivo?,TRUE,TRUE,y
+Director,F1.1 ¿Con qué instituciones se vincula actualmente?,FALSE,FALSE,x
+Director,F2.1 ¿Qué actividades educativas desarrolla con la o las instituciones indicadas en la pregunta anterior?,FALSE,FALSE,x
+Director,"G2.1 En una escala del 1 al 5, donde 1 es la menor sintonía y 5 es la mayor sintonía, ¿Cómo ubicaría la sintonía del siguiente tipo de medio en la localidad de la institución?: Radio Nacional",FALSE,FALSE,x
+Director,"G2.1 En una escala del 1 al 5, donde 1 es la menor sintonía y 5 es la mayor sintonía, ¿Cómo ubicaría la sintonía del siguiente tipo de medio en la localidad de la institución?: Radio local",FALSE,FALSE,x
+Director,"G2.1 En una escala del 1 al 5, donde 1 es la menor sintonía y 5 es la mayor sintonía, ¿Cómo ubicaría la sintonía del siguiente tipo de medio en la localidad de la institución?: Televisión Nacional",FALSE,FALSE,x
+Director,"G2.1 En una escala del 1 al 5, donde 1 es la menor sintonía y 5 es la mayor sintonía, ¿Cómo ubicaría la sintonía del siguiente tipo de medio en la localidad de la institución?: Televisión local",FALSE,FALSE,x
+Director,"G2.1 En una escala del 1 al 5, donde 1 es la menor sintonía y 5 es la mayor sintonía, ¿Cómo ubicaría la sintonía del siguiente tipo de medio en la localidad de la institución?: Diario Nacional",FALSE,FALSE,x
+Director,"G2.1 En una escala del 1 al 5, donde 1 es la menor sintonía y 5 es la mayor sintonía, ¿Cómo ubicaría la sintonía del siguiente tipo de medio en la localidad de la institución?: Diario local",FALSE,FALSE,x
+Director,G2.2 Indique los nombres de los 3 principales medios más consumidos por la población,FALSE,FALSE,x
+Director,G4.1 ¿Cuáles son los medios de comunicación que tienen mayor cobertura (alcance territorial) en su localidad?,FALSE,FALSE,x
+Director,H1.1 ¿Cuáles son las principales empresas que existen en la zona y de qué rubro?,FALSE,FALSE,x
+Director,H1.2 ¿Su institución educativa se vincula con alguna de ellas?,TRUE,FALSE,x
+Director,H1.3 ¿Qué actividades se realizan con las instituciones vinculadas?,FALSE,FALSE,x
+Director,"G4.2 ¿A través de qué medios se transmite ""Aprendo en casa"" en la localidad donde se ubica la institución?",FALSE,FALSE,x
+Gestión Pedagógica,Marca temporal,FALSE,FALSE,x
+Gestión Pedagógica,Nombre de la institución,FALSE,FALSE,x
+Gestión Pedagógica,Código modular de la institución,FALSE,FALSE,x
+Gestión Pedagógica,Tipo de institución,FALSE,FALSE,x
+Gestión Pedagógica,Nombre del informante,FALSE,FALSE,x
+Gestión Pedagógica,DNI del informante,FALSE,FALSE,x
+Gestión Pedagógica,A3.2 ¿Qué dificultades se han presentado al brindar el servicio educativo no presencial?,TRUE,TRUE,x
+Gestión Pedagógica,A4.4A ¿Cuál es el número de ingresantes por programa de estudios? Programa 1,FALSE,FALSE,x
+Gestión Pedagógica,A4.4B ¿Cuál es el número de ingresantes por programa de estudios? Programa 2,FALSE,FALSE,x
+Gestión Pedagógica,A4.4C ¿Cuál es el número de ingresantes por programa de estudios? Programa 3,FALSE,FALSE,x
+Gestión Pedagógica,A4.4D ¿Cuál es el número de ingresantes por programa de estudios? Programa 4,FALSE,FALSE,x
+Gestión Pedagógica,A4.4E ¿Cuál es el número de ingresantes por programa de estudios? Programa 5,FALSE,FALSE,x
+Gestión Pedagógica,A4.4F ¿Cuál es el número de ingresantes por programa de estudios? Programa 6,FALSE,FALSE,x
+Gestión Pedagógica,A4.4G ¿Cuál es el número de ingresantes por programa de estudios? Programa 7,FALSE,FALSE,x
+Gestión Pedagógica,A4.4H ¿Cuál es el número de ingresantes por programa de estudios? Programa 8,FALSE,FALSE,x
+Gestión Pedagógica,A4.4I ¿Cuál es el número de ingresantes por programa de estudios? Programa 9,FALSE,FALSE,x
+Gestión Pedagógica,A4.4J ¿Cuál es el número de ingresantes por programa de estudios? Programa 10,FALSE,FALSE,x
+Gestión Pedagógica,A3.1 ¿Qué herramientas o recursos utilizan para brindar el servicio educativo no presencial?,TRUE,TRUE,x
+Gestión Pedagógica,A5.1 ¿Qué tipo de material educativo han desarrollado o está utilizando para brindar el servicio educativo no presencial?,TRUE,TRUE,x
+Gestión Pedagógica,C4.6 ¿En cuál de los siguiente temas requiere capacitar a los docentes?,TRUE,TRUE,x
