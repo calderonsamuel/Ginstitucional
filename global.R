@@ -17,7 +17,7 @@ my_pipe <- function(df, separate = FALSE, usar_porc = FALSE){
     group_by(x) %>% 
     tally(sort = TRUE, name = "recuento") %>% 
     mutate(x = as_factor(x),
-           porcentaje = recuento/sum(recuento))
+           porcentaje = recuento/nrow(df))
   
   if(usar_porc){
     data <- select(data, x, valor = porcentaje)
