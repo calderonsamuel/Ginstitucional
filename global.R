@@ -30,6 +30,7 @@ my_pipe <- function(df, separate = FALSE, usar_porc = FALSE){
 }
 
 my_plot <- function(df, paleta = "Set1", usar_porc = FALSE){
+  filas <- nrow(df)
   
   p <- ggplot(df, aes(y = x, x = valor)) +
       geom_col(aes(fill = x))
@@ -42,7 +43,7 @@ my_plot <- function(df, paleta = "Set1", usar_porc = FALSE){
   }
   p +
     my_wrap() + 
-    scale_fill_brewer(palette = paleta) +
+    scale_fill_manual(values = as.vector(pals::polychrome(filas))) +
     theme(legend.position = "none", axis.title.y = element_blank())
     
 }
