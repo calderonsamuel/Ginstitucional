@@ -43,11 +43,17 @@ my_plot <- function(df, paleta = "Set1", usar_porc = FALSE){
   }
   p +
     my_wrap() + 
-    scale_fill_manual(values = as.vector(pals::polychrome(filas))) +
-    theme(legend.position = "none", axis.title.y = element_blank())
+    scale_fill_manual(values = as.vector(pals::polychrome(filas)))
     
 }
 
 my_wrap <- function(..., width = 35){
   scale_y_discrete(..., labels = function(x) str_wrap(x, width = width))
 }
+
+my_theme <- theme(legend.position = "none", 
+                  axis.title.y = element_blank(),
+                  panel.background = element_blank(), 
+                  panel.border = element_rect(fill = NA, colour = "black"))
+
+
