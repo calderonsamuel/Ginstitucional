@@ -33,7 +33,7 @@ my_plot <- function(df, paleta = "Set1", usar_porc = FALSE){
   filas <- nrow(df)
   
   p <- ggplot(df, aes(y = x, x = valor)) +
-      geom_col(aes(fill = x))
+      geom_col(aes(fill = x), color = "gray50")
   if(usar_porc){
     p <- p + 
       geom_label(aes(label = scales::percent(valor, 0.1))) +
