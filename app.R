@@ -44,10 +44,10 @@ ui <- fluidPage(
             # Seleccionar pregunta test
             uiOutput("render_pregunta"),
             # Selecionar paleta - provisional
-            selectInput(inputId = "paleta",
-                        label = "Selecciona la paleta de colores", 
-                        choices = rownames(RColorBrewer::brewer.pal.info),
-                        selected = "Set1"),
+            # selectInput(inputId = "paleta",
+            #             label = "Selecciona la paleta de colores", 
+            #             choices = rownames(RColorBrewer::brewer.pal.info),
+            #             selected = "Set1"),
             # check de ver  como porcentaje
             checkboxInput(inputId = "tipo_resumen",
                           label = "Ver como porcentaje")
@@ -56,9 +56,10 @@ ui <- fluidPage(
         mainPanel(
             tabsetPanel(
                 tabPanel("Gráfico",
-                         plotOutput("grafico")),
-                tabPanel("Paletas",
-                         plotOutput("brewer"))
+                         plotOutput("grafico"))
+                # ,
+                # tabPanel("Paletas",
+                #          plotOutput("brewer"))
             )
         )
     )
@@ -94,25 +95,36 @@ server <- function(input, output) {
     })
     
     my_data <- reactive({
-         filtrado()%>% 
-            my_pipe(separate = mi_p()$separate,
-                    usar_porc = input$tipo_resumen)
+        if(mi_p()$num %in% c("A2.3A ", "D3.2 ")){
+            filtrado() %>% 
+                separate_rows(x, sep = ", ") %>% 
+                filter(!is.na(x), x != ",", x != " ") %>% 
+                mutate(x = as.numeric(x))
+        } else {
+            filtrado()%>% 
+                my_pipe(separate = mi_p()$separate,
+                        usar_porc = input$tipo_resumen)  
+        }
     })
     
     my_custom_heigth <- reactive({
         filas_data <- nrow(my_data())
-        if(filas_data < 8) 400 else if(filas_data < 12) 600 else 800
+        if(filas_data < 8 | mi_p()$num %in% c("A2.3A ", "D3.2 ")) 400 else if(filas_data < 12) 600 else 800
     })
     
     output$grafico <- renderPlot({
         tipo_resp <- if_else(mi_p()$separate, "múltiple", "único")
-            my_plot(my_data(), 
+        my_labs <- labs(title = str_remove_all(input$pregunta, "\t|\n"),
+                       subtitle = paste("Análisis de", nrow(filtrado()), "respuestas de tipo", tipo_resp),
+                       x = "Instituciones educativas")
+        if (mi_p()$num %in% c("A2.3A ", "D3.2 ")){
+            p <- ggplot(my_data(), aes(y = x)) + geom_histogram()
+        } else {
+           p <-  my_plot(my_data(), 
                     paleta = input$paleta,
-                    usar_porc = input$tipo_resumen) +
-            labs(title = str_remove_all(input$pregunta, "\t|\n"),
-                 subtitle = paste("Análisis de", nrow(filtrado()), "respuestas de tipo", tipo_resp),
-                 x = "Instituciones educativas")
-            
+                    usar_porc = input$tipo_resumen)
+        }
+        p + my_labs + my_theme
     },
     height = my_custom_heigth)
     
