@@ -1,18 +1,26 @@
 library(shiny)
 library(tidyverse)
+library(googlesheets4)
 
 source("global.R")
 
-datos <- read_csv("director.csv", col_types = cols(.default = "c")) %>% 
-    filter(`Nombre de la institución` != "") %>% 
-    mutate(across(everything(), str_to_upper))
+datos_link <- "https://docs.google.com/spreadsheets/d/1WXUHyylk4brUA6DrDhEWnZbsAOoKqxP_eB83vbHTxU0/edit#gid=1442854212"
+
+gs4_deauth()
+datos <- 
+    read_sheet(datos_link, "Resp Recodificadas", col_types = "c")%>% 
+    # read_csv("director.csv", col_types = cols(.default = "c")) %>% 
+        dplyr::filter(`Nombre de la institución` != "") %>%
+        mutate(across(everything(), str_to_upper))
 
 datos_GP <- read_csv("GP.csv", col_types = cols(.default = "c"))%>%
     filter(`Nombre de la institución` != "") %>%
     mutate(across(everything(), str_to_upper))
 
-preguntas <- read_csv("preguntas.csv") %>% 
-    filter(listo) %>% 
+preguntas <- 
+    read_sheet(datos_link, "Hoja 4")%>%
+    # read_csv("preguntas.csv") %>% 
+    dplyr::filter(as.logical(listo)) %>% 
     mutate(num = str_extract(columna, "^.{1,5} "))
 
 ui <- fluidPage(
