@@ -1,6 +1,7 @@
 library(shiny)
 library(tidyverse)
 library(googlesheets4)
+library(pals)
 
 source("global.R")
 
