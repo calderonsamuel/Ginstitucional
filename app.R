@@ -43,11 +43,6 @@ ui <- fluidPage(
                         selected = "Director"),
             # Seleccionar pregunta test
             uiOutput("render_pregunta"),
-            # Selecionar paleta - provisional
-            # selectInput(inputId = "paleta",
-            #             label = "Selecciona la paleta de colores", 
-            #             choices = rownames(RColorBrewer::brewer.pal.info),
-            #             selected = "Set1"),
             # check de ver  como porcentaje
             checkboxInput(inputId = "tipo_resumen",
                           label = "Ver como porcentaje")
@@ -95,7 +90,7 @@ server <- function(input, output) {
     })
     
     my_data <- reactive({
-        if(mi_p()$num %in% c("A2.3A ", "D3.2 ")){
+        if(mi_p()$num %in% c("")){
             filtrado() %>% 
                 separate_rows(x, sep = ", ") %>% 
                 filter(!is.na(x), x != ",", x != " ") %>% 
@@ -109,7 +104,7 @@ server <- function(input, output) {
     
     my_custom_heigth <- reactive({
         filas_data <- nrow(my_data())
-        if(filas_data < 8 | mi_p()$num %in% c("A2.3A ", "D3.2 ")) 400 else if(filas_data < 12) 600 else 800
+        if(filas_data < 8 | mi_p()$num %in% c("")) 400 else if(filas_data < 12) 600 else 800
     })
     
     output$grafico <- renderPlot({
@@ -117,7 +112,7 @@ server <- function(input, output) {
         my_labs <- labs(title = str_remove_all(input$pregunta, "\t|\n"),
                        subtitle = paste("Análisis de", nrow(filtrado()), "respuestas de tipo", tipo_resp),
                        x = "Instituciones educativas")
-        if (mi_p()$num %in% c("A2.3A ", "D3.2 ")){
+        if (mi_p()$num %in% c("")){
             p <- ggplot(my_data(), aes(y = x)) + geom_histogram()
         } else {
            p <-  my_plot(my_data(), 
