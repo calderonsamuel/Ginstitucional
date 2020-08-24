@@ -10,15 +10,15 @@ my_pipe <- function(df, separate = FALSE, usar_porc = FALSE){
   if (separate == TRUE) {
     data <- 
       separate_rows(data, x, sep = ", ") %>% 
-      filter(x != "," & x != " ") %>% 
-      mutate(x = str_trunc(x, 60)) 
+      filter(x != "," & x != " ") 
   }
   data <- data %>% 
     filter(x != "NA" & x != "") %>% 
     group_by(x) %>% 
     tally(sort = TRUE, name = "recuento") %>% 
     arrange(recuento) %>% 
-    mutate(x = as_factor(x),
+    mutate(x = str_trunc(x, 80),
+           x = as_factor(x),
            porcentaje = recuento/nrow(df))
   
   if(usar_porc){
