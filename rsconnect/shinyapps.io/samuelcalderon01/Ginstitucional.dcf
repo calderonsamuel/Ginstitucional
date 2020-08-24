@@ -5,9 +5,9 @@ account: samuelcalderon01
 server: shinyapps.io
 hostUrl: https://api.shinyapps.io/v1
 appId: 2659341
-bundleId: 3502842
+bundleId: 3540626
 url: https://samuelcalderon01.shinyapps.io/Ginstitucional/
-when: 1597169251.62356
+when: 1597988427.04749
 asMultiple: FALSE
 asStatic: FALSE
-ignoredFiles: GP.csv|muestra.csv|reporte.Rmd
+ignoredFiles: director.csv|muestra.csv|preguntas.csv|reporte.Rmd

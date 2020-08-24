@@ -10,7 +10,6 @@ datos_link <- "https://docs.google.com/spreadsheets/d/1WXUHyylk4brUA6DrDhEWnZbsA
 gs4_deauth()
 datos <- 
     read_sheet(datos_link, "Resp Recodificadas", col_types = "c")%>% 
-    # read_csv("director.csv", col_types = cols(.default = "c")) %>% 
         dplyr::filter(`Nombre de la institución` != "") %>%
         mutate(across(everything(), str_to_upper))
 
@@ -20,7 +19,6 @@ datos_GP <- read_csv("GP.csv", col_types = cols(.default = "c"))%>%
 
 preguntas <- 
     read_sheet(datos_link, "Hoja 4")%>%
-    # read_csv("preguntas.csv") %>% 
     dplyr::filter(as.logical(listo)) %>% 
     mutate(num = str_extract(columna, "^.{1,5} "))
 
@@ -52,9 +50,6 @@ ui <- fluidPage(
             tabsetPanel(
                 tabPanel("Gráfico",
                          plotOutput("grafico"))
-                # ,
-                # tabPanel("Paletas",
-                #          plotOutput("brewer"))
             )
         )
     )
