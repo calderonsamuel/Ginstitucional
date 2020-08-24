@@ -6,17 +6,21 @@ library(pals)
 source("global.R")
 
 datos_link <- "https://docs.google.com/spreadsheets/d/1WXUHyylk4brUA6DrDhEWnZbsAOoKqxP_eB83vbHTxU0/edit#gid=1442854212"
-
+datos_GP_link <- "https://docs.google.com/spreadsheets/d/1x1504OFbZlJY14WaVJ7eRXCXoHucTYkozS0Sapkx-FM/edit#gid=1753305861"
 gs4_deauth()
 datos <- 
     read_sheet(datos_link, "Resp Recodificadas", col_types = "c")%>% 
         dplyr::filter(`Nombre de la institución` != "") %>%
         mutate(across(everything(), str_to_upper))
 
-datos_GP <- read_csv("GP.csv", col_types = cols(.default = "c"))%>%
+gs4_deauth()
+datos_GP <- 
+    read_sheet(datos_GP_link, "Resp Recodificadas", col_types = "c") %>% 
+    # read_csv("GP.csv", col_types = cols(.default = "c"))%>%
     filter(`Nombre de la institución` != "") %>%
     mutate(across(everything(), str_to_upper))
 
+gs4_deauth()
 preguntas <- 
     read_sheet(datos_link, "Hoja 4")%>%
     dplyr::filter(as.logical(listo)) %>% 
@@ -104,7 +108,7 @@ server <- function(input, output) {
     
     output$grafico <- renderPlot({
         tipo_resp <- if_else(mi_p()$separate, "múltiple", "único")
-        my_labs <- labs(title = str_remove_all(input$pregunta, "\t|\n"),
+        my_labs <- labs(title = str_wrap(input$pregunta, width = 100),
                        subtitle = paste("Análisis de", nrow(filtrado()), "respuestas de tipo", tipo_resp),
                        x = "Instituciones educativas")
         if (mi_p()$num %in% c("")){
