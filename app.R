@@ -26,6 +26,8 @@ preguntas <-
     dplyr::filter(as.logical(listo)) %>% 
     mutate(num = str_extract(columna, "^.{1,5} "))
 
+regiones <- unique(datos$Region)[order(unique(datos$Region))]
+
 ui <- fluidPage(
 
     # Application title
@@ -33,10 +35,15 @@ ui <- fluidPage(
 
     sidebarLayout(
         sidebarPanel(
+            # Seleccionar región
+            selectInput(inputId = "region",
+                        label = "Regiones", 
+                        choices = c("Todas", regiones),
+                        selected = "Todas"),
             # Seleccionar tipo de institución
             selectInput(inputId = "tipo_inst",
                         label = "Tipo de institución",
-                        choices = c("IEST", "CETPRO"),
+                        choices = c("IEST", "CETPRO", "Ambos"),
                         selected = "IEST"),
             #Seleccionar cuestionario
             selectInput(inputId = "cuestionario",
@@ -82,8 +89,15 @@ server <- function(input, output) {
         } else {
             data <- datos_GP
         }
+        
+        if (input$tipo_inst != "Ambos"){
+            data <- filter(data, `Tipo de institución` == input$tipo_inst)
+        }
+        
+        if (input$region != "Todas" | input$region == ""){
+            data <- filter(data, Region %in% input$region)
+        }
         data %>%
-            filter(`Tipo de institución` == input$tipo_inst) %>% 
             select(x = contains(mi_p()$num)) %>% 
             filter(!is.na(x))
     })
@@ -106,10 +120,19 @@ server <- function(input, output) {
         if(filas_data < 8 | mi_p()$num %in% c("")) 400 else if(filas_data < 12) 600 else 800
     })
     
-    output$grafico <- renderPlot({
+    my_subtitle <- reactive({
         tipo_resp <- if_else(mi_p()$separate, "múltiple", "único")
+        nivel <- if_else(input$region == "Todas", 
+                         "todas las regiones de la muestra", 
+                         str_to_title(input$region))
+        paste("Análisis de", 
+              nrow(filtrado()), "respuestas de tipo", tipo_resp,
+              "en", nivel)
+    })
+    
+    output$grafico <- renderPlot({
         my_labs <- labs(title = str_wrap(input$pregunta, width = 100),
-                       subtitle = paste("Análisis de", nrow(filtrado()), "respuestas de tipo", tipo_resp),
+                       subtitle = my_subtitle(),
                        x = "Instituciones educativas")
         if (mi_p()$num %in% c("")){
             p <- ggplot(my_data(), aes(y = x)) + geom_histogram()
