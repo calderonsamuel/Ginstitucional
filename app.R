@@ -27,43 +27,64 @@ preguntas <-
     mutate(num = str_extract(columna, "^.{1,5} "))
 
 regiones <- unique(datos$Region)[order(unique(datos$Region))]
+instituciones <- unique(datos$`Nombre de la institución`)[order(unique(datos$`Nombre de la institución`))]
 
 ui <- fluidPage(
 
     # Application title
     titlePanel("Reporte de Gestión Institucional"),
-
-    sidebarLayout(
-        sidebarPanel(
-            # Seleccionar región
-            selectInput(inputId = "region",
-                        label = "Regiones", 
-                        choices = c("Todas", regiones),
-                        selected = "Todas"),
-            # Seleccionar tipo de institución
-            selectInput(inputId = "tipo_inst",
-                        label = "Tipo de institución",
-                        choices = c("IEST", "CETPRO", "Ambos"),
-                        selected = "IEST"),
-            #Seleccionar cuestionario
-            selectInput(inputId = "cuestionario",
-                        label =  "Selecciona el cuestionario",
-                        choices = c("Director", "Gestión Pedagógica"),
-                        selected = "Director"),
-            # Seleccionar pregunta test
-            uiOutput("render_pregunta"),
-            # check de ver  como porcentaje
-            checkboxInput(inputId = "tipo_resumen",
-                          label = "Ver como porcentaje")
-        ),
-
-        mainPanel(
-            tabsetPanel(
-                tabPanel("Gráfico",
-                         plotOutput("grafico"))
-            )
-        )
+    
+    tabsetPanel(
+        tabPanel("Gráficos",
+                 sidebarLayout(
+                     sidebarPanel(
+                         # Seleccionar región
+                         selectInput(inputId = "region",
+                                     label = "Regiones", 
+                                     choices = c("Todas", regiones),
+                                     selected = "Todas"),
+                         # Seleccionar tipo de institución
+                         selectInput(inputId = "tipo_inst",
+                                     label = "Tipo de institución",
+                                     choices = c("IEST", "CETPRO", "Ambos"),
+                                     selected = "IEST"),
+                         #Seleccionar cuestionario
+                         selectInput(inputId = "cuestionario",
+                                     label =  "Selecciona el cuestionario",
+                                     choices = c("Director", "Gestión Pedagógica"),
+                                     selected = "Director"),
+                         # Seleccionar pregunta test
+                         uiOutput("render_pregunta"),
+                         # check de ver  como porcentaje
+                         checkboxInput(inputId = "tipo_resumen",
+                                       label = "Ver como porcentaje")
+                     ),
+                     
+                     mainPanel(
+                          plotOutput("grafico"))
+                 )
+                 ),
+        tabPanel("Individual",
+                 sidebarLayout(
+                     sidebarPanel(
+                         # seleccionar institución
+                         selectInput(inputId = "institucion", 
+                                     label = "Selecciona una institución",
+                                     choices = instituciones,
+                                     selected = instituciones[1]),
+                         selectInput(inputId = "tipo_reporte",
+                                     label = "Seleccione el tipo de reporte",
+                                     choices = c("Director", "Responsable de GP"),
+                                     selected = "Director")
+                     ),
+                     mainPanel(
+                         dataTableOutput("reporte_individual")
+                     )
+                 )
+                 )
     )
+
+    
 )
 
 server <- function(input, output) {
@@ -149,6 +170,20 @@ server <- function(input, output) {
         RColorBrewer::display.brewer.all()
     },
     height = 600)
+    
+    output$reporte_individual <- renderDataTable({
+        if (input$tipo_reporte == "Director"){
+            data <- datos
+        } else {
+            data <- datos_GP
+        }
+        data %>% 
+            filter(`Nombre de la institución` == input$institucion) %>% 
+            pivot_longer(cols = everything(), 
+                         names_to = "Pregunta", 
+                         values_to = "Respuesta") %>% 
+            filter(Respuesta != "")
+    })
 }
 
 # Run the application 
