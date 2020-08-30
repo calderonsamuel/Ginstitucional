@@ -1,30 +1,27 @@
 library(shiny)
 library(tidyverse)
-library(googlesheets4)
 library(pals)
 
 source("global.R")
 
-datos_link <- "https://docs.google.com/spreadsheets/d/1WXUHyylk4brUA6DrDhEWnZbsAOoKqxP_eB83vbHTxU0/edit#gid=1442854212"
-datos_GP_link <- "https://docs.google.com/spreadsheets/d/1x1504OFbZlJY14WaVJ7eRXCXoHucTYkozS0Sapkx-FM/edit#gid=1753305861"
-gs4_deauth()
 datos <- 
-    read_sheet(datos_link, "Resp Recodificadas", col_types = "c")%>% 
+    read_csv("director.csv", col_types = cols(.default = "c")) %>% 
+    # read_sheet(datos_link, "Resp Recodificadas", col_types = "c")%>% 
         dplyr::filter(`Nombre de la institución` != "") %>%
         mutate(across(everything(), str_to_upper))
 
-gs4_deauth()
-datos_GP <- 
-    read_sheet(datos_GP_link, "Resp Recodificadas", col_types = "c") %>% 
-    # read_csv("GP.csv", col_types = cols(.default = "c"))%>%
-    filter(`Nombre de la institución` != "") %>%
-    mutate(across(everything(), str_to_upper))
-
-gs4_deauth()
 preguntas <- 
-    read_sheet(datos_link, "Hoja 4")%>%
+    read_csv("preguntas.csv") %>% 
     dplyr::filter(as.logical(listo)) %>% 
     mutate(num = str_extract(columna, "^.{1,5} "))
+
+muestra <- 
+    read_csv("muestra.csv", col_types = cols(.default = "c"))
+
+datos_GP <- 
+    read_csv("GP.csv", col_types = cols(.default = "c"))%>%
+    filter(`Nombre de la institución` != "") %>%
+    mutate(across(everything(), str_to_upper))
 
 regiones <- unique(datos$Region)[order(unique(datos$Region))]
 instituciones <- unique(datos$`Nombre de la institución`)[order(unique(datos$`Nombre de la institución`))]
@@ -35,9 +32,16 @@ ui <- fluidPage(
     titlePanel("Reporte de Gestión Institucional"),
     
     tabsetPanel(
-        tabPanel("Gráficos",
+        tabPanel("Reporte Gráfico",
                  sidebarLayout(
                      sidebarPanel(
+                         #Seleccionar cuestionario
+                         selectInput(inputId = "cuestionario",
+                                     label =  "Selecciona el cuestionario",
+                                     choices = c("Director", "Gestión Pedagógica"),
+                                     selected = "Director"),
+                         # Seleccionar pregunta test
+                         uiOutput("render_pregunta"),
                          # Seleccionar región
                          selectInput(inputId = "region",
                                      label = "Regiones", 
@@ -48,23 +52,28 @@ ui <- fluidPage(
                                      label = "Tipo de institución",
                                      choices = c("IEST", "CETPRO", "Ambos"),
                                      selected = "IEST"),
-                         #Seleccionar cuestionario
-                         selectInput(inputId = "cuestionario",
-                                     label =  "Selecciona el cuestionario",
-                                     choices = c("Director", "Gestión Pedagógica"),
-                                     selected = "Director"),
-                         # Seleccionar pregunta test
-                         uiOutput("render_pregunta"),
+                         # Seleccionar ruralidad
+                         
+                         # Seleccionar otra priorización
+                         
                          # check de ver  como porcentaje
                          checkboxInput(inputId = "tipo_resumen",
                                        label = "Ver como porcentaje")
                      ),
                      
                      mainPanel(
-                          plotOutput("grafico"))
+                         tabsetPanel(
+                             tabPanel("Gráfico",
+                                    plotOutput("grafico")
+                          ),
+                            tabPanel("Instituciones",
+                                    tableOutput("instituciones_filtradas") 
+                                     ))
+                             
+                         )
                  )
                  ),
-        tabPanel("Individual",
+        tabPanel("Reporte Individual",
                  sidebarLayout(
                      sidebarPanel(
                          # seleccionar institución
@@ -118,19 +127,25 @@ server <- function(input, output) {
         if (input$region != "Todas" | input$region == ""){
             data <- filter(data, Region %in% input$region)
         }
-        data %>%
+        data
+    })
+    
+    pre_data <- reactive({
+        filtrado() %>%
             select(x = contains(mi_p()$num)) %>% 
             filter(!is.na(x))
     })
     
+    
+    
     my_data <- reactive({
         if(mi_p()$num %in% c("")){
-            filtrado() %>% 
+            pre_data() %>% 
                 separate_rows(x, sep = ", ") %>% 
                 filter(!is.na(x), x != ",", x != " ") %>% 
                 mutate(x = as.numeric(x))
         } else {
-            filtrado()%>% 
+            pre_data()%>% 
                 my_pipe(separate = mi_p()$separate,
                         usar_porc = input$tipo_resumen)  
         }
@@ -147,7 +162,7 @@ server <- function(input, output) {
                          "todas las regiones de la muestra", 
                          str_to_title(input$region))
         paste("Análisis de", 
-              nrow(filtrado()), "respuestas de tipo", tipo_resp,
+              nrow(pre_data()), "respuestas de tipo", tipo_resp,
               "en", nivel)
     })
     
@@ -170,6 +185,12 @@ server <- function(input, output) {
         RColorBrewer::display.brewer.all()
     },
     height = 600)
+    
+    output$instituciones_filtradas <- renderTable({
+        muestra %>% 
+            semi_join(filtrado(), 
+                      by = c("cod_mod" = "Código modular de la institución"))
+    })
     
     output$reporte_individual <- renderDataTable({
         if (input$tipo_reporte == "Director"){
