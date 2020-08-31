@@ -54,6 +54,7 @@ my_wrap <- function(..., width = 35){
 my_theme <- theme(legend.position = "none", 
                   axis.title.y = element_blank(),
                   panel.background = element_blank(), 
-                  panel.border = element_rect(fill = NA, colour = "black"))
+                  panel.border = element_rect(fill = NA, colour = "black"),
+                  plot.title = element_text(size = 16))
 
 

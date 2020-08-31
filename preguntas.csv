@@ -7,7 +7,7 @@ Director,Nombre del informante,FALSE,FALSE,x
 Director,DNI del informante,FALSE,FALSE,x
 Director,Cargo del informante,FALSE,FALSE,x
 Director,A2.1A Indique el nombre de los programas de estudios que brinda la insittución educativa,TRUE,TRUE,y
-Director,"A2.3A ¿Cuántos estudiantes están participando, en este contexto de emergencia sanitaria (COVID-19)?",TRUE,TRUE,x
+Director,"A2.3A ¿Cuántos estudiantes por programa de estudios están participando, en este contexto de emergencia sanitaria (COVID-19)?",TRUE,TRUE,x
 Director,A4.1 ¿Todos los docentes nombrados y contratados están participando del servicio educativo no presencial?,TRUE,FALSE,x
 Director,A4.3A ¿La institución educativa ha realizado proceso(s) de admisión 2020?,TRUE,FALSE,x
 Director,A4.3B ¿En qué modalidad se han realizado el o los procesos de admisión 2020?,TRUE,FALSE,x
