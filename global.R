@@ -14,6 +14,7 @@ my_pipe <- function(df, separate = FALSE, usar_porc = FALSE){
   }
   data <- data %>% 
     filter(x != "NA" & x != "") %>% 
+    mutate(x = str_trim(x)) %>% 
     group_by(x) %>% 
     tally(sort = TRUE, name = "recuento") %>% 
     arrange(recuento) %>% 

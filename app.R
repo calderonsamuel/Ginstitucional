@@ -14,6 +14,11 @@ preguntas <-
     dplyr::filter(as.logical(listo)) %>%
     mutate(num = str_extract(columna, "^.{1,5} "))
 
+preguntas2 <-
+    read_csv("preguntas2.csv") %>%
+    dplyr::filter(as.logical(cruzar)) %>%
+    mutate(num = str_extract(columna, "^.{1,5} "))
+
 muestra <-
     read_csv("muestra.csv", col_types = cols(.default = "c")) %>%
     mutate(across(everything(), str_to_upper))
@@ -28,6 +33,10 @@ director_limpio <- read_csv("director limpio.csv", col_types = cols(.default = "
 
 GP_limpio <- read_csv("GP limpio.csv", col_types = cols(.default = "c")) %>%
     mutate(across(everything(), str_to_upper))
+
+estudiantes <- read_csv("estudiantes.csv")
+
+programas <- estudiantes %>% count(x, sort = TRUE) %>% head(10) %>% pull(x)
 
 regiones <- unique(datos$Region)[order(unique(datos$Region))]
 instituciones <-
@@ -109,6 +118,36 @@ ui <- fluidPage(# Application title
                 ),
                 mainPanel(dataTableOutput("reporte_individual"))
             )
+        ),
+        tabPanel(
+            "Estudiantes",
+            sidebarLayout(
+                sidebarPanel(
+                    selectInput(inputId = "nombre_carrera",
+                                label = "Seleccione el tipo de programa",
+                                choices = programas,
+                                selected = programas[1])
+                ),
+                mainPanel(plotOutput("plot_carreras"))
+            )
+        ),
+        tabPanel(
+            "Cruces",
+            sidebarLayout(
+                sidebarPanel(
+                    selectInput(inputId = "cruce1",
+                                label = "Variable de cruce 1",
+                                choices = preguntas2$columna,
+                                selected = preguntas2$columna[1]),
+                    selectInput(inputId = "cruce2",
+                                label = "Variable de cruce 2",
+                                choices = preguntas2$columna,
+                                selected = preguntas2$columna[1])
+                ),
+                mainPanel(
+                    tableOutput("tabla_cruces")
+                )
+            )
         )
     ))
 
@@ -184,6 +223,8 @@ server <- function(input, output) {
                                                       "UNA VEZ CADA QUINCE DÍAS",
                                                       "UNA VEZ AL MES",
                                                       "MENOS DE UNA VEZ AL MES")))
+        } else if (str_detect(mi_p()$num, "G2.1")){
+            data <- mutate(data, x = fct_relevel(x, c("1", "2", "3", "4", "5")))
         }
         data
     })
@@ -247,6 +288,27 @@ server <- function(input, output) {
                          names_to = "Pregunta",
                          values_to = "Respuesta") %>%
             filter(Respuesta != "")
+    })
+    
+    output$plot_carreras <- renderPlot({
+        estudiantes %>% 
+            filter(x == input$nombre_carrera) %>% 
+            ggplot(aes(y)) + 
+            geom_histogram() +
+            labs(title = "Distribución del número de estudiantes",
+                 subtitle = input$nombre_carrera,
+                 x = "Cantidad de estudiantes",
+                 y = "Recuento de casos")
+    })
+    
+    output$tabla_cruces <- renderTable({
+        datos %>% 
+            select(x = input$cruce1, y = input$cruce2) %>% 
+            separate_rows(everything(), sep = ", ") %>% 
+            mutate(across(everything(), str_trim)) %>% 
+            filter(!is.na(y), !is.na(x), y != ",", x != ",", x != "", y != "") %>% 
+            count(x, y) %>% 
+            pivot_wider(names_from = y, values_from = n)
     })
 }
 
