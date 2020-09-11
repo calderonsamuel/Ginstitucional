@@ -148,6 +148,25 @@ ui <- fluidPage(# Application title
                     tableOutput("tabla_cruces")
                 )
             )
+        ),
+        tabPanel(
+             "Evidencias",
+             sidebarLayout(
+                 sidebarPanel(
+                     tags$p("Aquí puedes encontrar el enlace a las evidencias de coordinación y reuniones respecto a este instrumento.")
+                 ),
+                 mainPanel(
+                     tags$h2("Evidencias"),
+                     tags$ul(
+                         tags$li(tags$a("Reuniones", 
+                                        href = "https://drive.google.com/file/d/1R1xG947k1Nn2c84JAkiBtq2HQnjK356Q/view?usp=sharing",
+                                        target = "_blank")),
+                         tags$li(tags$a("Coordinaciones", 
+                                        href = "https://docs.google.com/document/d/10MA7DyOjy9fkJbvSfx46DYNMdnp9tVVGX1_TEwIRUto/edit?usp=sharing",
+                                        target = "_blank"))
+                     )
+                 )
+             )
         )
     ))
 
